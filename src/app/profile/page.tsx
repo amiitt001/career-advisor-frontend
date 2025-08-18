@@ -54,29 +54,30 @@ const handleResumeUpload = async () => {
 
   // This is the JSX that renders the page
   return (
-    <div style={{ maxWidth: '600px', margin: '40px auto', padding: '20px', fontFamily: 'sans-serif', border: '1px solid #ddd', borderRadius: '8px' }}>
+  <div className="page-container">
+    <div className="content-card">
       <h1>Create Your Profile</h1>
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Name:</label><br />
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="name">Name:</label>
+          <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required className="form-input" />
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Email:</label><br />
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="email">Email:</label>
+          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="form-input" />
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Your Interests (comma-separated):</label><br />
-          <input type="text" value={interests} onChange={(e) => setInterests(e.target.value)} style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="interests">Your Interests (comma-separated):</label>
+          <input id="interests" type="text" value={interests} onChange={(e) => setInterests(e.target.value)} className="form-input" />
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label>Your Skills (comma-separated):</label><br />
-          <input type="text" value={skills} onChange={(e) => setSkills(e.target.value)} style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} />
+        <div className="form-group">
+          <label className="form-label" htmlFor="skills">Your Skills (comma-separated):</label>
+          <input id="skills" type="text" value={skills} onChange={(e) => setSkills(e.target.value)} className="form-input" />
         </div>
-        <button type="submit" style={{ padding: '10px 20px' }}>Save Profile</button>
+        <button type="submit" className="btn btn-primary">Save Profile</button>
       </form>
-      
-      <div style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #ddd' }}>
+
+      <div style={{ marginTop: '30px', paddingTop: '30px', borderTop: '1px solid #e5e7eb' }}>
         <h2>Upload Your Resume</h2>
         <input 
           type="file" 
@@ -85,14 +86,16 @@ const handleResumeUpload = async () => {
         />
         <button 
           onClick={handleResumeUpload} 
-          disabled={!resumeFile}
-          style={{ marginLeft: '10px', padding: '10px 20px' }}
+          disabled={!resumeFile} 
+          className="btn btn-primary"
+          style={{ marginLeft: '10px' }}
         >
           Upload Resume
         </button>
       </div>
-
-      {message && <p style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>{message}</p>}
     </div>
-  );
+
+    {message && <p style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>{message}</p>}
+  </div>
+);
 }
