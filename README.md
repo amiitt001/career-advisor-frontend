@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Personalized Career & Skills Advisor (Frontend)
 
-## Getting Started
+This is the frontend user interface for the AI-powered Career and Skills Advisor, built with Next.js and React. It provides a clean and interactive experience for users to build their profile, take assessments, and receive personalized career guidance.
 
-First, run the development server:
+## ✨ Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Profile Form:** An intuitive form for users to input their personal details, interests, and skills.
+- **Skills Assessment Quiz:** An interactive multiple-choice quiz to gauge user knowledge.
+- **Resume Uploader:** Allows users to upload their PDF resume directly to the cloud.
+- **Recommendation Display:** A dedicated page to display the AI-generated career paths, including skill gaps and learning suggestions.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌟 Vision & Social Impact
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Our vision is to empower every student in India with the clarity and confidence to choose a fulfilling career path. By leveraging the power of generative AI, this platform democratizes access to high-quality, personalized career counseling, helping to bridge the gap between education and employment and enabling the next generation to realize their full potential.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Framework:** Next.js
+- **Library:** React
+- **Language:** TypeScript
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Node.js and npm installed.
+- The [backend server](https://github.com/amiitt001/career-advisor-backend) must be running for API calls to work.
 
-## Deploy on Vercel
+### Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository:
+   ```sh
+   git clone [https://github.com/amiitt001/career-advisor-frontend.git](https://github.com/amiitt001/career-advisor-frontend.git)
+   cd career-advisor-frontend
