@@ -4,10 +4,23 @@ This is the frontend user interface for the AI-powered Career and Skills Advisor
 
 ## ✨ Key Features
 
-- **User Profile Form:** An intuitive form for users to input their personal details, interests, and skills.
-- **Skills Assessment Quiz:** An interactive multiple-choice quiz to gauge user knowledge.
-- **Resume Uploader:** Allows users to upload their PDF resume directly to the cloud.
-- **Recommendation Display:** A dedicated page to display the AI-generated career paths, including skill gaps and learning suggestions.
+### Future Scope
+
+This project has significant potential for expansion into a full-fledged career development platform. Future enhancements include:
+
+- **Full User Authentication:** Implement a complete login/signup system to allow multiple users to save and manage their profiles securely.
+
+- **AI Project Generator:** A unique feature where the AI suggests personalized portfolio projects based on a user's recommended career and personal interests, helping them build practical experience. 
+ 
+- **AI Resume Co-Pilot:** Go beyond skill extraction and use generative AI to help users transform simple descriptions of their experiences into professional, impactful bullet points for their resume.
+
+- **AI-Powered Interview Prep:** A tool to generate common interview questions for a recommended career path and provide coaching on how to best answer them based on the user's specific skill set.
+
+- **Career Comparison Tool:** Allow users to select two recommended careers and receive a detailed, AI-generated comparison of day-to-day responsibilities, salary expectations in India, and long-term growth prospects.
+ 
+- **Hyper-Localized Learning:** Enhance the learning path suggestions to include resources from Indian educational initiatives (like NPTEL) and tutorials available in regional languages.
+
+- **User Feedback Loop:** Allow users to rate their recommendations, providing valuable data to further fine-tune the AI prompts and improve results over time.
 
 ## 🌟 Vision & Social Impact
 

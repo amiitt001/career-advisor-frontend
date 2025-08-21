@@ -10,6 +10,7 @@ export type Recommendation = {
   required_skills: string[];
   skill_gaps: string[];
   learning_path: string;
+  jobSearchUrl: string;
 };
 
 export type Profile = {
