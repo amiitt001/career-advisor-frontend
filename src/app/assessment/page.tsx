@@ -29,7 +29,7 @@ export default function AssessmentPage() {
     quizQuestions.forEach((question, index) => {
       if (selectedAnswers[index] === question.correctAnswer) {
         // Calculate score based on number of questions to get a percentage
-        calculatedScore += (100 / quizQuestions.length); 
+        calculatedScore += (100 / quizQuestions.length);
       }
     });
     const finalScore = Math.round(calculatedScore);
@@ -38,10 +38,10 @@ export default function AssessmentPage() {
     // --- This is where we save the score to the backend ---
     const testUid = 'testUser123'; // Using the same test user
     try {
-  await saveAssessmentScore(testUid, finalScore);
-} catch (error) {
-  console.error("Failed to save score:", error);
-}
+      await saveAssessmentScore(testUid, finalScore);
+    } catch (error) {
+      console.error("Failed to save score:", error);
+    }
   };
 
   // This part displays the final score after the quiz is done
@@ -50,7 +50,7 @@ export default function AssessmentPage() {
       <div style={{ maxWidth: '600px', margin: '40px auto', textAlign: 'center', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
         <h1>Quiz Finished!</h1>
         <h2>Your Score: {score} / 100</h2>
-        <button onClick={() => router.push('/profile')} style={{padding: '10px 20px', cursor: 'pointer'}}>Back to Profile</button>
+        <button onClick={() => router.push('/profile')} style={{ padding: '10px 20px', cursor: 'pointer' }}>Back to Profile</button>
       </div>
     );
   }
@@ -65,7 +65,8 @@ export default function AssessmentPage() {
         <h3>Question {currentQuestionIndex + 1}/{quizQuestions.length}</h3>
         <p>{currentQuestion.question}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {currentQuestion.options.map((option) => (
+
+          {currentQuestion.options.map((option: string) => (
             <label key={option} style={{ display: 'block', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}>
               <input
                 type="radio"
@@ -81,7 +82,7 @@ export default function AssessmentPage() {
         </div>
       </div>
 
-      <div style={{marginTop: '20px'}}>
+      <div style={{ marginTop: '20px' }}>
         {currentQuestionIndex < quizQuestions.length - 1 ? (
           <button onClick={handleNext} disabled={!selectedAnswers[currentQuestionIndex]} style={{ padding: '10px 20px' }}>Next</button>
         ) : (

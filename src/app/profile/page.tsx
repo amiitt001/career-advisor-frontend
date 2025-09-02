@@ -81,7 +81,7 @@ const handleResumeUpload = async () => {
         <h2>Upload Your Resume</h2>
         <input 
           type="file" 
-          accept=".pdf,.doc,.docx"
+          accept=".pdf"
           onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)} 
         />
         <button 

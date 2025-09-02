@@ -1,5 +1,5 @@
 
-import { Question } from '../types';
+import type { Question } from '@/types';
 
 // This is the array that holds all of our quiz questions
 export const quizQuestions: Question[] = [

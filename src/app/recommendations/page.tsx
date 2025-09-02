@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import RecommendationCard from '../../components/RecommendationCard';
-import { mockRecommendations } from '../../data/mockRecommendations';
-import { getCareerComparison } from '../../lib/api'; // Import our new function
-import type { Recommendation } from '../../types';
+import RecommendationCard from '@/components/RecommendationCard';
+import { mockRecommendations } from '@/data/mockRecommendations';
+import { getCareerComparison } from '@/lib/api';
+import type { Recommendation } from '@/types';
 import ReactMarkdown from 'react-markdown';
 
 export default function RecommendationsPage() {
@@ -15,12 +15,22 @@ export default function RecommendationsPage() {
   const [isComparing, setIsComparing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleGetRecommendations = () => {
+const handleGetRecommendations = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setRecommendations(mockRecommendations);
-      setIsLoading(false);
-    }, 1000);
+   const testUid = 'testUser123';
+try {
+  setErrorMessage(''); // Clear previous messages
+  const response = await fetch(`http://localhost:5000/recommendations/${testUid}`);
+  if (!response.ok) {
+    throw new Error('The AI service is not responding. Please check the backend server.');
+  }
+  const data = await response.json();
+  setRecommendations(data);
+} catch (error: any) {
+  setErrorMessage(`Error: ${error.message}`);
+} finally {
+  setIsLoading(false);
+}
   };
 
   const handleCardSelect = (recToToggle: Recommendation) => {

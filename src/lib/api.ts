@@ -1,4 +1,4 @@
-import type { Profile, Recommendation } from '../types';
+import type { Profile, Recommendation } from '@/types';
 
 const API_BASE_URL = 'http://localhost:5000';
 

@@ -1,5 +1,5 @@
 'use client';
-import type { Recommendation } from '../types';
+import type { Recommendation } from '@/types';
 
 type RecommendationCardProps = {
   recommendation: Recommendation;
