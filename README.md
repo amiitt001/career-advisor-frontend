@@ -1,3 +1,8 @@
+> **Note:** This is a full-stack project with two separate repositories. This repository contains the **Frontend** code. The Backend code is located in a separate repository.
+>
+> **➡️ [Click here to view the Backend Repository](https://github.com/amiitt001/career-advisor-backend)**
+>
+> ---
 # Personalized Career & Skills Advisor (Frontend)
 
 This is the frontend user interface for the AI-powered Career and Skills Advisor, built with Next.js and React. It provides a clean and interactive experience for users to build their profile, take assessments, and receive personalized career guidance.
