@@ -59,15 +59,25 @@ export default function AssessmentPage() {
 
   // This part displays the current question and options
   return (
-    <div style={{ maxWidth: '600px', margin: '40px auto', padding: '20px' }}>
-      <h1>Skills Assessment</h1>
-      <div style={{ border: '1px solid #ddd', padding: '20px', borderRadius: '8px' }}>
-        <h3>Question {currentQuestionIndex + 1}/{quizQuestions.length}</h3>
-        <p>{currentQuestion.question}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+  <div className="content-card">
+    <h1>Skills Assessment</h1>
 
-          {currentQuestion.options.map((option: string) => (
-            <label key={option} style={{ display: 'block', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}>
+    {score !== null ? (
+      <div style={{ textAlign: 'center' }}>
+        <h2>Quiz Finished!</h2>
+        <p style={{ fontSize: '1.5rem', margin: '20px 0' }}>Your Score: {score} / 100</p>
+        <button onClick={() => router.push('/profile')} className="btn btn-primary">
+          Back to Profile
+        </button>
+      </div>
+    ) : (
+      <div>
+        <h3>Question {currentQuestionIndex + 1}/{quizQuestions.length}</h3>
+        <p style={{ fontSize: '1.1rem', marginBottom: '20px' }}>{quizQuestions[currentQuestionIndex].question}</p>
+
+        <div className="form-group">
+          {quizQuestions[currentQuestionIndex].options.map((option: string) => (
+            <label key={option} style={{ display: 'block', padding: '10px', border: '1px solid #ddd', borderRadius: '6px', marginBottom: '10px', cursor: 'pointer' }}>
               <input
                 type="radio"
                 name="answer"
@@ -80,15 +90,16 @@ export default function AssessmentPage() {
             </label>
           ))}
         </div>
-      </div>
 
-      <div style={{ marginTop: '20px' }}>
-        {currentQuestionIndex < quizQuestions.length - 1 ? (
-          <button onClick={handleNext} disabled={!selectedAnswers[currentQuestionIndex]} style={{ padding: '10px 20px' }}>Next</button>
-        ) : (
-          <button onClick={handleSubmit} disabled={!selectedAnswers[currentQuestionIndex]} style={{ padding: '10px 20px' }}>Finish & See Score</button>
-        )}
+        <div style={{marginTop: '20px'}}>
+          {currentQuestionIndex < quizQuestions.length - 1 ? (
+            <button onClick={handleNext} disabled={!selectedAnswers[currentQuestionIndex]} className="btn btn-primary">Next</button>
+          ) : (
+            <button onClick={handleSubmit} disabled={!selectedAnswers[currentQuestionIndex]} className="btn btn-primary">Finish & See Score</button>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 }

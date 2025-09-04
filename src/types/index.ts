@@ -6,11 +6,13 @@ export type Question = {
 
 export type Recommendation = {
   title: string;
-  reason: string;
-  required_skills: string[];
-  skill_gaps: string[];
-  learning_path: string;
-  jobSearchUrl: string; // We will add this feature later
+  overview: string;
+  whyGoodFit: string;
+  keySkillsRequired: string[];
+  skillGapsForUser: string[];
+  howToGetStarted: string[];
+  averageSalaryIndiaLPA: string;
+  dayInTheLifeSummary: string;
 };
 
 export type Profile = {
@@ -23,4 +25,16 @@ export type Profile = {
     assessmentScore?: number;
     resumeUrl?: string;
     extractedSkills?: string[];
+};
+
+export type ComparisonPoint = {
+  metric: string;
+  career1_details: string;
+  career2_details: string;
+};
+
+export type ComparisonResult = {
+  career1_title: string;
+  career2_title: string;
+  comparisonPoints: ComparisonPoint[];
 };

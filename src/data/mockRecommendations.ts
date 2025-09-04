@@ -2,27 +2,23 @@ import type { Recommendation } from '@/types';
 
 export const mockRecommendations: Recommendation[] = [
   {
-    title: "Data Analyst / Scientist",
-    reason: "Based on your interest in AI and skills in Python, a career in data is a natural fit. This field is booming in India and allows you to apply analytical skills to solve real-world problems.",
-    required_skills: ["SQL", "Python", "R", "Tableau", "Power BI", "Statistics", "Machine Learning"],
-    skill_gaps: ["SQL", "Tableau", "Statistics"],
-    learning_path: "Start with a comprehensive SQL course on a platform like Coursera. Then, begin a project using Python's Pandas library for data analysis and create visualizations with Matplotlib or Seaborn.",
-    jobSearchUrl: "https://www.google.com/search?q=Data+Analyst+jobs+in+India&ibp=htl;jobs"
+    title: "DevOps Engineer",
+    overview: "A role focused on automating and streamlining the software development and deployment lifecycle.",
+    whyGoodFit: "This aligns perfectly with your stated interest in DevOps. Your programming skills in C++ and Python provide a solid foundation for scripting and automation, which are crucial in DevOps roles.",
+    keySkillsRequired: ["Linux", "Cloud Computing (AWS, Azure, GCP)", "CI/CD", "Docker", "Kubernetes", "Scripting (Bash, Python)", "Terraform"],
+    skillGapsForUser: ["Cloud Computing (AWS, Azure, GCP)", "Docker", "Kubernetes", "CI/CD", "Terraform"],
+    howToGetStarted: ["Start with online courses on Linux administration and cloud platforms.", "Practice using tools like Docker and Kubernetes.", "Contribute to open-source projects."],
+    averageSalaryIndiaLPA: "₹6-10 Lakhs p.a.",
+    dayInTheLifeSummary: "A typical day involves monitoring CI/CD pipelines, writing automation scripts, managing cloud infrastructure, and collaborating with development teams to resolve issues."
   },
   {
-    title: "Cloud DevOps Engineer",
-    reason: "Your skills in Python and interest in modern tech infrastructure make you a strong candidate for a DevOps role. This career focuses on automating and streamlining development processes using cloud platforms.",
-    required_skills: ["GCP / AWS / Azure", "Docker", "Kubernetes", "CI/CD (Jenkins, GitLab)", "Terraform", "Python / Bash Scripting"],
-    skill_gaps: ["Docker", "Kubernetes", "CI/CD", "Terraform"],
-    learning_path: "Begin by learning the fundamentals of Docker to containerize an application. Then, explore a cloud provider like Google Cloud (GCP) and learn about their core services for computing and networking.",
-    jobSearchUrl: "https://www.google.com/search?q=Cloud+DevOps+Engineer+jobs+in+India&ibp=htl;jobs"
-  },
-  {
-    title: "Full-Stack Developer (MERN Stack)",
-    reason: "Combining your foundational skills in Python with an interest in building complete applications, the MERN (MongoDB, Express, React, Node.js) stack is a popular choice. This allows you to build both the frontend and backend of a web application.",
-    required_skills: ["JavaScript", "React", "Node.js", "Express", "MongoDB", "REST APIs", "HTML/CSS"],
-    skill_gaps: ["JavaScript", "React", "Node.js", "MongoDB"],
-    learning_path: "Focus on mastering JavaScript, as it's the core of this stack. Then, learn React for the frontend and Node.js/Express for the backend. Building a simple to-do list application is a classic first project.",
-    jobSearchUrl: "https://www.google.com/search?q=Full-Stack+Developer+MERN+jobs+in+India&ibp=htl;jobs"
+    title: "IoT Security Engineer",
+    overview: "A specialized cybersecurity role focused on securing Internet of Things devices and networks.",
+    whyGoodFit: "Given your interest in ethical hacking and skills in low-level programming like C++, IoT Security is a natural fit. It combines hardware understanding with network security principles.",
+    keySkillsRequired: ["Network Security", "IoT Protocols (MQTT, CoAP)", "Embedded Systems", "Penetration Testing", "Cloud Computing (AWS, Azure)", "Cryptography"],
+    skillGapsForUser: ["IoT Protocols (MQTT, CoAP)", "Embedded Systems", "Cryptography"],
+    howToGetStarted: ["Begin with a certification like CompTIA Security+ to build a strong foundation.", "Learn about common IoT protocols and their vulnerabilities.", "Set up a home lab with devices like Raspberry Pi to practice."],
+    averageSalaryIndiaLPA: "₹5-9 Lakhs p.a.",
+    dayInTheLifeSummary: "Your day would involve conducting vulnerability assessments on IoT devices, analyzing network traffic for threats, developing security protocols, and working with hardware and software teams to implement secure designs."
   }
 ];

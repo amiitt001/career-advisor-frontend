@@ -2,35 +2,24 @@
 
 import { useState } from 'react';
 import RecommendationCard from '@/components/RecommendationCard';
-import { mockRecommendations } from '@/data/mockRecommendations';
 import { getCareerComparison } from '@/lib/api';
-import type { Recommendation } from '@/types';
-import ReactMarkdown from 'react-markdown';
+import type { Recommendation, ComparisonResult } from '@/types'; // Import new type
+import { mockRecommendations } from '@/data/mockRecommendations'; // We still use this for the initial cards
 
 export default function RecommendationsPage() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedForComparison, setSelectedForComparison] = useState<Recommendation[]>([]);
-  const [comparisonResult, setComparisonResult] = useState<string>('');
+  const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null); // UPDATED STATE
   const [isComparing, setIsComparing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-const handleGetRecommendations = async () => {
+  const handleGetRecommendations = () => {
     setIsLoading(true);
-   const testUid = 'testUser123';
-try {
-  setErrorMessage(''); // Clear previous messages
-  const response = await fetch(`http://localhost:5000/recommendations/${testUid}`);
-  if (!response.ok) {
-    throw new Error('The AI service is not responding. Please check the backend server.');
-  }
-  const data = await response.json();
-  setRecommendations(data);
-} catch (error: any) {
-  setErrorMessage(`Error: ${error.message}`);
-} finally {
-  setIsLoading(false);
-}
+    setTimeout(() => {
+      setRecommendations(mockRecommendations);
+      setIsLoading(false);
+    }, 1000);
   };
 
   const handleCardSelect = (recToToggle: Recommendation) => {
@@ -38,12 +27,8 @@ try {
       const isAlreadySelected = prev.some(r => r.title === recToToggle.title);
       if (isAlreadySelected) {
         return prev.filter(r => r.title !== recToToggle.title);
-      } else {
-        if (prev.length < 2) {
-          return [...prev, recToToggle];
-        }
       }
-      return prev; // Return previous state if trying to select more than 2
+      return prev.length < 2 ? [...prev, recToToggle] : prev;
     });
   };
 
@@ -51,34 +36,38 @@ try {
     if (selectedForComparison.length !== 2) return;
     setIsComparing(true);
     setErrorMessage('');
+    setComparisonResult(null);
     try {
       const result = await getCareerComparison(selectedForComparison[0], selectedForComparison[1]);
-      setComparisonResult(result.comparisonText);
+      setComparisonResult(result);
     } catch (error: any) {
-      setErrorMessage(`Error: ${error.message}. (Note: This feature requires the live AI to be working).`);
+      setErrorMessage(`Error: ${error.message}. (Note: This requires the live AI to be working).`);
     } finally {
       setIsComparing(false);
     }
   };
 
   return (
-    <div className="page-container">
+    <div>
       <h1>Your Personalized Career Recommendations</h1>
 
       {recommendations.length === 0 && !isLoading && (
-        <button onClick={handleGetRecommendations} className="btn btn-primary" style={{ padding: '15px 25px', fontSize: '1.2em' }}>
-          Generate My Career Paths
-        </button>
+        <div className="content-card" style={{ textAlign: 'center' }}>
+          <p style={{fontSize: '1.1rem'}}>Click the button below to generate your career paths based on your profile.</p>
+          <button onClick={handleGetRecommendations} className="btn btn-primary" style={{ padding: '15px 25px', fontSize: '1.2em' }}>
+            Generate My Career Paths
+          </button>
+        </div>
       )}
 
-      {isLoading && <p>Generating your recommendations using AI...</p>}
+      {isLoading && <p>Generating recommendations...</p>}
 
       {recommendations.length > 0 && (
         <div>
           {selectedForComparison.length === 2 && (
             <div style={{ marginBottom: '20px' }}>
               <button onClick={handleCompare} disabled={isComparing} className="btn btn-primary">
-                {isComparing ? 'Comparing...' : `Compare ${selectedForComparison[0].title} & ${selectedForComparison[1].title}`}
+                {isComparing ? 'Comparing...' : `Compare Selected Careers`}
               </button>
             </div>
           )}
@@ -86,14 +75,32 @@ try {
           {isComparing && <p>AI is generating your comparison...</p>}
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
-          {comparisonResult && (
+          {/* --- UPDATED COMPARISON SECTION --- */}
+          {comparisonResult && comparisonResult.comparisonPoints && (
             <div className="content-card">
               <h2>Career Comparison</h2>
-              <ReactMarkdown>{comparisonResult}</ReactMarkdown>
+              <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid #ddd' }}>
+                    <th style={{ width: '25%', padding: '8px', textAlign: 'left' }}>Metric</th>
+                    <th style={{ width: '37.5%', padding: '8px', textAlign: 'left' }}>{comparisonResult.career1_title}</th>
+                    <th style={{ width: '37.5%', padding: '8px', textAlign: 'left' }}>{comparisonResult.career2_title}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonResult.comparisonPoints.map((point, index) => (
+                    <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
+                      <td style={{ padding: '12px 8px', fontWeight: 'bold', verticalAlign: 'top' }}>{point.metric}</td>
+                      <td style={{ padding: '12px 8px', verticalAlign: 'top' }}>{point.career1_details}</td>
+                      <td style={{ padding: '12px 8px', verticalAlign: 'top' }}>{point.career2_details}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
 
-          <div style={{ marginTop: '30px' }}>
+          <div>
             {recommendations.map((rec, index) => (
               <RecommendationCard 
                 key={index} 

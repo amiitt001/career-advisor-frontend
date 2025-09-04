@@ -1,4 +1,6 @@
-import type { Profile, Recommendation } from '@/types';
+
+import type { Profile, Recommendation, ComparisonResult } from '../types'; // Add ComparisonResult
+
 
 const API_BASE_URL = 'http://localhost:5000';
 
@@ -46,7 +48,9 @@ export const uploadResume = async (uid: string, file: File) => {
     return response.json();
 };
 // Function to get a comparison from the AI
-export const getCareerComparison = async (career1: Recommendation, career2: Recommendation) => {
+
+export const getCareerComparison = async (career1: Recommendation, career2: Recommendation): Promise<ComparisonResult> => {
+  
   const response = await fetch(`${API_BASE_URL}/recommendations/compare`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -57,4 +61,4 @@ export const getCareerComparison = async (career1: Recommendation, career2: Reco
     throw new Error(result.error || 'Failed to get comparison');
   }
   return response.json();
-};
+};  

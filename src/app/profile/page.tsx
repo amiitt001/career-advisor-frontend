@@ -1,60 +1,45 @@
-'use client'; 
+'use client';
 
-import { saveProfile, uploadResume } from '../../lib/api';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/context/UserContext';
+import { saveProfile } from '@/lib/api';
 
 export default function ProfilePage() {
-  // States for the profile form
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [interests, setInterests] = useState('');
   const [skills, setSkills] = useState('');
-  
-  // State for the resume file upload
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  
-  // State for showing messages to the user
   const [message, setMessage] = useState('');
+  const { setProfile } = useUser();
+  const router = useRouter();
 
-  // Function to handle the main profile form submission
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setMessage('Saving...');
-  const testUid = 'testUser123';
-  const profileData = {
-    uid: testUid, name, email,
-    interests: interests.split(',').map(item => item.trim()),
-    skills: skills.split(',').map(item => item.trim()),
-    createdAt: new Date().toISOString()
+    e.preventDefault();
+    setMessage('Saving...');
+
+    // Generate a new unique ID for each submission
+    const newUid = `user_${Date.now()}`;
+
+    const profileData = {
+      uid: newUid, name, email,
+      interests: interests.split(',').map(item => item.trim()),
+      skills: skills.split(',').map(item => item.trim()),
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      await saveProfile(profileData);
+      setProfile(profileData); // Set this as the active user
+      setMessage('Profile saved successfully! Redirecting to dashboard...');
+      router.push('/'); // Redirect to the dashboard
+    } catch (error: any) {
+      setMessage(`Error: ${error.message}`);
+    }
   };
-  try {
-    await saveProfile(profileData);
-    setMessage('Profile saved successfully!');
-  } catch (error: any) {
-    setMessage(`Error: ${error.message}`);
-  }
-};
 
-  // Function to handle the resume file upload
-const handleResumeUpload = async () => {
-  if (!resumeFile) {
-    setMessage('Please select a resume file first.');
-    return;
-  }
-  setMessage('Uploading resume...');
-  const testUid = 'testUser123';
-  try {
-    await uploadResume(testUid, resumeFile);
-    setMessage('Resume uploaded successfully!');
-  } catch (error: any) {
-    setMessage(`Error: ${error.message}`);
-  }
-};
-
-
-  // This is the JSX that renders the page
+  // The JSX for the form remains the same as before
   return (
-  <div className="page-container">
     <div className="content-card">
       <h1>Create Your Profile</h1>
       <form onSubmit={handleSubmit}>
@@ -76,26 +61,7 @@ const handleResumeUpload = async () => {
         </div>
         <button type="submit" className="btn btn-primary">Save Profile</button>
       </form>
-
-      <div style={{ marginTop: '30px', paddingTop: '30px', borderTop: '1px solid #e5e7eb' }}>
-        <h2>Upload Your Resume</h2>
-        <input 
-          type="file" 
-          accept=".pdf"
-          onChange={(e) => setResumeFile(e.target.files ? e.target.files[0] : null)} 
-        />
-        <button 
-          onClick={handleResumeUpload} 
-          disabled={!resumeFile} 
-          className="btn btn-primary"
-          style={{ marginLeft: '10px' }}
-        >
-          Upload Resume
-        </button>
-      </div>
+      {message && <p style={{ marginTop: '20px' }}>{message}</p>}
     </div>
-
-    {message && <p style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>{message}</p>}
-  </div>
-);
+  );
 }
