@@ -32,7 +32,7 @@ export default function RecommendationCard({ recommendation, isSelected, onSelec
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
 
         <div style={{ backgroundColor: '#EFF6FF', padding: '1rem', borderRadius: '8px' }}>
-          <h3>Why It's a Good Fit</h3>
+          <h3>Why It&apos;s a Good Fit</h3>
           <p>{recommendation.whyGoodFit}</p>
         </div>
 
