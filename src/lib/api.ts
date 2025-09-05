@@ -2,7 +2,7 @@
 import type { Profile, Recommendation, ComparisonResult } from '../types'; // Add ComparisonResult
 
 
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 // Function to save the main user profile
 export const saveProfile = async (profileData: Partial<Profile>) => {
@@ -62,3 +62,24 @@ export const getCareerComparison = async (career1: Recommendation, career2: Reco
   }
   return response.json();
 };  
+export const getQuizSuggestion = async (profile: Profile) => {
+  const response = await fetch(`${API_BASE_URL}/recommendations/quiz/suggest-topic`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(profile),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to get quiz suggestion');
+  }
+  return response.json(); // Will return { topic: "Suggested Topic" }
+};
+// Add this function to your lib/api.ts file
+
+export const getQuizForCareer = async (careerTitle: string) => {
+  const response = await fetch(`${API_BASE_URL}/recommendations/quiz/${careerTitle}`);
+  if (!response.ok) {
+    const result = await response.json();
+    throw new Error(result.error || 'Failed to fetch quiz');
+  }
+  return response.json();
+};
