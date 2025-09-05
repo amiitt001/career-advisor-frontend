@@ -33,9 +33,13 @@ export default function ProfilePage() {
       setProfile(profileData); // Set this as the active user
       setMessage('Profile saved successfully! Redirecting to dashboard...');
       router.push('/'); // Redirect to the dashboard
-    } catch (error: any) {
-      setMessage(`Error: ${error.message}`);
-    }
+    } catch (error) {
+  if (error instanceof Error) {
+    setMessage(`Error: ${error.message}`);
+  } else {
+    setMessage('An unknown error occurred.');
+  }
+}
   };
 
   // The JSX for the form remains the same as before
