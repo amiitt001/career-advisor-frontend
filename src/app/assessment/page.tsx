@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react'; // Import useEffect
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import { saveAssessmentScore, getQuizForCareer, getQuizSuggestion } from '@/lib/api';
@@ -12,7 +12,7 @@ export default function AssessmentPage() {
 
   const [stage, setStage] = useState('selection'); 
   const [careerTitle, setCareerTitle] = useState('');
-  const [isSuggesting, setIsSuggesting] = useState(false);
+  const [isSuggesting, setIsSuggesting] = useState(true); // Start in suggesting state
   const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,48 +21,55 @@ export default function AssessmentPage() {
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
   const [score, setScore] = useState<number | null>(null);
 
-  // --- NEW: Automatically suggest a topic ---
+  // This automatically suggests a quiz topic based on the user's profile
   useEffect(() => {
     if (profile) {
       setIsSuggesting(true);
+      setErrorMessage('');
       getQuizSuggestion(profile)
         .then(data => {
-          setCareerTitle(data.topic);
+          if (data && data.topic) {
+            setCareerTitle(data.topic);
+          }
         })
         .catch(err => {
           console.error("Could not fetch suggestion:", err);
+          setErrorMessage('Could not get an AI suggestion for a quiz topic. Please enter one manually.');
         })
         .finally(() => {
           setIsSuggesting(false);
         });
+    } else {
+        setIsSuggesting(false);
     }
-  }, [profile]); // This effect runs when the profile is loaded
+  }, [profile]);
 
+  // Handler to generate and start the quiz
   const handleStartQuiz = async () => {
     if (!careerTitle) {
-      setErrorMessage('Please enter a career title.');
+      setErrorMessage('Please enter a career title to generate a quiz.');
       return;
     }
     setIsLoading(true);
     setErrorMessage('');
     try {
       const questions = await getQuizForCareer(careerTitle);
-      if (questions.length === 0) throw new Error("The AI did not return any questions.");
+      if (!questions || !Array.isArray(questions) || questions.length === 0) {
+        throw new Error("The AI did not return a valid quiz. Please try a different topic.");
+      }
       setQuizQuestions(questions);
       setStage('quiz');
-   } catch (error) {
-  // We can check if it's an error object before accessing the message
-  if (error instanceof Error) {
-    setErrorMessage(`Error: ${error.message}`);
-  } else {
-    setErrorMessage('An unknown error occurred.');
-  }
-} finally {
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(`Error fetching quiz: ${error.message}`);
+      } else {
+        setErrorMessage('An unknown error occurred while fetching the quiz.');
+      }
+    } finally {
       setIsLoading(false);
     }
   };
 
-  // ... other handler functions (handleAnswerSelect, handleNext, handleSubmit) remain the same ...
   const handleAnswerSelect = (answer: string) => {
     setSelectedAnswers({ ...selectedAnswers, [currentQuestionIndex]: answer });
   };
@@ -91,8 +98,8 @@ export default function AssessmentPage() {
     }
   };
 
+  // --- RENDER LOGIC BASED ON STAGE ---
 
-  // --- RENDER LOGIC ---
   if (stage === 'selection') {
     return (
       <div className="content-card">
@@ -100,31 +107,30 @@ export default function AssessmentPage() {
         <p>Based on your profile, we suggest an assessment for the following career. You can also enter your own.</p>
         <div className="form-group">
           <label htmlFor="careerTitle" className="form-label">Career Title</label>
-          <input 
+          <input
             id="careerTitle"
             type="text"
             value={careerTitle}
             onChange={(e) => setCareerTitle(e.target.value)}
             className="form-input"
-            placeholder={isSuggesting ? "Generating suggestion..." : "e.g., DevOps Engineer"}
+            placeholder={isSuggesting ? "AI is generating a suggestion..." : "e.g., DevOps Engineer"}
           />
         </div>
         <button onClick={handleStartQuiz} disabled={isLoading || isSuggesting} className="btn btn-primary">
           {isLoading ? 'Generating Quiz...' : 'Start Quiz'}
         </button>
-        {errorMessage && <p style={{color: 'red', marginTop: '1rem'}}>{errorMessage}</p>}
+        {errorMessage && <p style={{ color: 'red', marginTop: '1rem' }}>{errorMessage}</p>}
       </div>
     );
   }
 
-  // ... the rest of the render logic (for 'quiz' and 'finished' stages) remains the same ...
   if (stage === 'finished') {
     return (
       <div className="content-card" style={{ textAlign: 'center' }}>
         <h1>Quiz Finished for {careerTitle}!</h1>
         <p style={{ fontSize: '1.5rem', margin: '20px 0' }}>Your Score: {score} / 100</p>
-        <button onClick={() => router.push('/profile')} className="btn btn-primary">
-          Back to Profile
+        <button onClick={() => router.push('/')} className="btn btn-primary">
+          Back to Dashboard
         </button>
       </div>
     );
@@ -156,4 +162,11 @@ export default function AssessmentPage() {
     );
   }
 
+  return (
+    <div className="content-card">
+        <h1>Skills Assessment</h1>
+        <p>Loading...</p>
+    </div>
+  );
 }
+
